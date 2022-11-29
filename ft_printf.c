@@ -6,7 +6,7 @@
 /*   By: oaboudan <oaboudan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 18:41:49 by oaboudan          #+#    #+#             */
-/*   Updated: 2022/11/27 01:32:47 by oaboudan         ###   ########.fr       */
+/*   Updated: 2022/11/29 19:07:54 by oaboudan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ int	check(va_list args, char n)
 	else if (n == 'X')
 		len += ft_putnbr_base_hex(va_arg(args, unsigned int));
 	else if (n == 'p')
-	{
-		len += write(1, "0x", 2);
-		len += ft_putnbr_base_x(va_arg(args, unsigned long));
-	}
+		len += ft_putstr("0x") + ft_putnbr_base_x(va_arg(args, unsigned long));
 	else if (n == '%')
 		len += ft_putchar('%');
 	else
@@ -53,15 +50,21 @@ int	ft_printf(const char *s, ...)
 	while (s[i])
 	{
 		if (s[i] == '%' && s[++i])
-		{
 			len += check(args, s[i]);
-		}
 		else if (!s[i])
 			break ;
 		else
 			len += write(1, &s[i], 1);
 		i++;
 	}
+	if (len < 0)
+		return (-1);
 	va_end(args);
 	return (len);
 }
+// int main()
+// {
+// 	fclose(stdout);
+// 	int res = ft_printf("%s", "khalid");
+// 	fprintf(stderr,"%d",res);
+// }
